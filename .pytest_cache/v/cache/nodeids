@@ -1,0 +1,6 @@
+[
+  "tests/test_babynames.py::TestBabynames::test_create_parser", 
+  "tests/test_babynames.py::TestBabynames::test_extract_names", 
+  "tests/test_babynames.py::TestBabynames::test_main_print", 
+  "tests/test_babynames.py::TestBabynames::test_main_summary"
+]
