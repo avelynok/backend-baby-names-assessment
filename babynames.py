@@ -46,7 +46,29 @@ def extract_names(filename):
     ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
     """
     names = []
-    # +++your code here+++
+    with open(filename, "r") as f:
+        pattern_year = re.compile(r'Popularity\sin\s(\d{4})')
+        year = re.search(pattern_year, f.read())
+    names.append(year.group(1))
+    with open(filename, "r") as f:
+        pattern = re.compile(r'<td>(\d+)<\/td><td>(\w+)<\/td><td>(\w+)<\/td>')
+        rank_names = re.findall(pattern, f.read())
+    d = {}
+    for tup in rank_names:
+        if tup[1] in d and tup[2] in d:
+            continue
+        elif tup[1] in d:
+            d[tup[2]] = tup[0]
+            continue
+        elif tup[2] in d:
+            d[tup[1]] = tup[0]
+            continue
+        else:
+            d[tup[1]] = tup[0]
+            d[tup[2]] = tup[0]
+    for name in d:
+        names.append(name + " " + d[name])
+    names.sort()
     return names
 
 
@@ -82,7 +104,15 @@ def main(args):
     # or to write the list to a summary file e.g. `baby1990.html.summary`
 
     # +++your code here+++
-
+    for filename in file_list:
+        names = extract_names(filename)
+        text = '\n'.join(names)
+        if create_summary:
+            outf = open(filename + '.summary', 'w')
+            outf.write(text + '\n')
+            outf.close()
+        else:
+            print text
 
 if __name__ == '__main__':
     main(sys.argv[1:])
